@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+		xmlns:th="http://www.thymeleaf.org">
+		
+<head>
+	<title>DK Online</title>
+</head>
+<p>登陆界面</p>
+<body>
+	<div>
+		<form th:action="@{/login}" method="POST" >
+			<label for="username">username: </label>
+			<input type="text" name="username",id="username" />
+			
+			<label for="password">password: </label>
+			<input type="password" name="password",id="password" />
+			
+			<input type="submit" value="登录" />
+		</form>
+	</div>
+</body>
+
+</html>

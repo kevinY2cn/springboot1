@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+  <settings>
+	  <setting name="cacheEnabled" value="true"/>
+	  <setting name="logImpl" value="STDOUT_LOGGING" />
+  </settings>
+  
+  <typeAliases>
+	  <!-- <typeAlias alias="DkUser" type="dk.pojo.DkUser"/>
+	  <typeAlias alias="Province" type="dk.pojo.Province"/>
+	  <typeAlias alias="City" type="dk.pojo.City"/> -->
+	  <package name="dk.pojo"/><!-- 扫描包下的所有Java Bean，如果没有@Alias注解则会使用首字母小写的非限定名作为别名 -->
+  </typeAliases>
+</configuration>

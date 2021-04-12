@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<configuration scan="true" scanPeriod="5 seconds" debug="false">  
+	 <contextName>log-back</contextName>
+	 
+	  <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+	  		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            	<level>all</level>
+        	</filter>
+        	<encoder>   
+		      <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>   
+		    </encoder>  
+	  </appender>
+	  
+	  <property name="rootPath" value="/logs"/>
+	  <appender name="file" class="ch.qos.logback.core.rolling.RollingFileAppender">
+	  		  <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			      <!-- daily rollover -->
+			      <fileNamePattern>${rootPath}/logFile.%d{yyyy-MM-dd_HH-mm}.log</fileNamePattern>
+			      <!-- keep 30 days' worth of history capped at 3GB total size -->
+			      <maxHistory>30</maxHistory>
+			      <totalSizeCap>3GB</totalSizeCap>
+			
+			  </rollingPolicy>
+	  		<encoder>   
+		      <pattern>%d [%thread] %-5level %logger{36} [%file:%line] - %msg%n</pattern>   
+		    </encoder>  
+	  </appender>
+	  
+	  <root level="debug">
+	      <!--定义了两个appender，日志会通过往这两个appender里面写-->
+	      <appender-ref ref="stdout"/>
+	      <appender-ref ref="file"/>
+	  </root>
+	  
+	  <!-- <logger name="dk" level="info">
+	 	 <appender-ref ref="stdout" />
+	  </logger> -->
+	 <!--  <logger name="ch.qos.logback.core.rolling" level="info">
+	  	  <appender-ref ref="stdout" />
+	  </logger> -->
+	  
+	  <logger name="org.apache.ibatis" level="debug">
+			<appender-ref ref="stdout" />
+	  </logger>
+	  
+	  <logger name="org.springframework.jdbc.support.JdbcTransactionManager" level="debug">
+			<appender-ref ref="stdout" />
+	  </logger>
+	
+	<!-- <logger name="org.springframework.jdbc.core.StatementCreatorUtils"
+		additivity="false" level="trace">
+		<appender-ref ref="stdout" />
+	</logger> -->
+</configuration>  	

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="dk.mapper.ProvinceMapper">
+
+	<select id="queryAll" resultMap="provinceResult">
+		select * from Province
+	</select>
+
+	<select id="queryById" resultMap="provinceResult">
+		select * from Province where province_id = #{id}
+	</select>
+	
+
+
+	<resultMap id="provinceResult" type="province">
+		<id property="id" column="province_id"></id>
+		<result property="name" column="province_name"/>
+	</resultMap>
+</mapper>
