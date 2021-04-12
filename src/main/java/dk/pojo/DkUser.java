@@ -1,16 +1,32 @@
 package dk.pojo;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+
 import org.apache.ibatis.type.Alias;
+import org.hibernate.validator.constraints.Range;
 
 @Alias("DkUser")
 public class DkUser {
 	
 	private int id;
+	@NotBlank(message="账户名不能为空")
 	private String username;
+	
+	@NotBlank(message="密码不能为空")
 	private String password;
-	private String sex;
+	
+	@Range(min = 1,max = 2, message = "只能为男或女")
+	private Integer sex;
+	
+	@Email
 	private String email;
+	
+	@DecimalMin(value="1",message="错误的省份")
 	private String provinceId;
+	
+	@DecimalMin(value="1",message="错误的城市")
 	private String cityId;
 	
 	
@@ -33,10 +49,10 @@ public class DkUser {
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	public String getSex() {
+	public Integer getSex() {
 		return sex;
 	}
-	public void setSex(String sex) {
+	public void setSex(Integer sex) {
 		this.sex = sex;
 	}
 	public String getEmail() {

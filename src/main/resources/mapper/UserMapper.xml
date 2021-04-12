@@ -21,10 +21,14 @@
 	<!-- <selectKey resultType="long" keyProperty="id" order="BEFORE" >
 			select uuid()
 		</selectKey> -->
-		insert into DkUser(user_name,pass_word) values
+		insert into DkUser(user_name,pass_word,sex,province_id,city_id,email) values
 		(
 		#{username,jdbcType=VARCHAR},
-		#{password,jdbcType=VARCHAR}
+		#{password,jdbcType=VARCHAR},
+		#{sex,jdbcType=INTEGER},
+		#{provinceId,jdbcType=INTEGER},
+		#{cityId,jdbcType=INTEGER},
+		#{email,jdbcType=VARCHAR}
 		)
 		
 	</insert>
