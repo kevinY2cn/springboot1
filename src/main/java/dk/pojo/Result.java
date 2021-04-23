@@ -9,6 +9,16 @@ public class Result {
 	private Object resultObject;
 	
 	public static enum STATUS_CODE {SUCCESS,FAILED}
+	
+	
+	public Result(STATUS_CODE statusCode,String resultMessage,Object resultObject) {
+		this.statusCode = statusCode;
+		this.resultMessage = resultMessage;
+		this.resultObject = resultObject;
+	}
+
+	public Result() {
+	}
 
 	public STATUS_CODE getStatusCode() {
 		return statusCode;

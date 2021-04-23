@@ -34,6 +34,7 @@ public class UserServiceImp implements UserService {
 			log.debug("addUser:"+ dkUser.getUsername());
 		}
 		userMapper.addUser(dkUser);
+//		throw new Exception();
 	}
 
 	@Override
