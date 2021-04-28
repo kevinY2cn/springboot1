@@ -1,15 +1,21 @@
 package dk.web;
 
-import java.io.BufferedInputStream;
-import java.io.BufferedOutputStream;
+import java.util.List;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import java.util.ArrayList;
+import java.util.Map;
 
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpServletRequest;
 
-import org.apache.ibatis.javassist.expr.NewArray;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.http.HttpHeaders;
@@ -18,58 +24,25 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.druid.sql.ast.SQLStructDataType.Field;
+import dk.pojo.DkItem;
+import dk.pojo.Result;
+import dk.pojo.Result.STATUS_CODE;
+import dk.service.ItemService;
+
 
 @Controller
 @RequestMapping("/excel")
 public class ExcelController {
 	
-//	@GetMapping("/export")
-//	public void doExport(HttpServletResponse response) {
-//		OutputStream output = null;
-//		BufferedOutputStream buf = null;
-//		BufferedInputStream bis = null;
-//		try {
-//			String fileName = "template.xlsx";
-//			ClassPathResource resource = new ClassPathResource(fileName);
-//			File file = resource.getFile();
-//			System.out.println(file.getTotalSpace());
-//			System.out.println(file.getAbsolutePath());
-//			output = response.getOutputStream();
-//			buf = new BufferedOutputStream(output);
-//			response.setContentType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
-//			response.setCharacterEncoding("utf-8");
-//			response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
-//			byte[] bys = new byte[1024];
-//			
-//			bis = new BufferedInputStream(new FileInputStream(file));
-//			int i = -1;
-//			while((i = bis.read(bys)) != -1) {
-//				buf.write(bys, 0, i);
-//				buf.flush();
-//			}
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		} finally {
-//			try {
-//				if(bis != null) {
-//					bis.close();
-//				}
-//				if(buf != null) {
-//					buf.close();
-//				}
-//				if(output != null) {
-//					output.close();
-//				}
-//			}
-//			catch (Exception e) {
-//				
-//			}
-//		}
-//		
-//	}
+	private static final Logger log = LoggerFactory.getLogger(ExcelController.class);
+	
+	@Autowired
+	private ItemService itemService;
 	
 	@GetMapping("/export")
 	public ResponseEntity<FileSystemResource> doExport() {
@@ -89,6 +62,62 @@ public class ExcelController {
 		} catch(Exception e) {
 			return new ResponseEntity<FileSystemResource>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+	}
+	
+	@PostMapping("/import/test")
+	public ResponseEntity<Result> doImport(HttpServletRequest request){
+		MultipartHttpServletRequest multipart = (MultipartHttpServletRequest)request;
+		Map<String,MultipartFile> fileMap = multipart.getFileMap();
+		int rowNum = 0;
+		for(MultipartFile file: fileMap.values()) {
+			try {
+				String filename = file.getOriginalFilename();
+				int pIndex = filename.lastIndexOf('.');
+				String extension = filename.substring(pIndex+1);
+				Workbook wb = null;
+				if("xlsx".equals(extension)) {
+					wb = new XSSFWorkbook(file.getInputStream()); //.xlsx文件
+				}else if("xls".equals(extension)) {
+					wb = new HSSFWorkbook(file.getInputStream()); //.xls文件
+				}
+				Sheet sh1 = wb.getSheetAt(0);
+				//遍历excel的数据 保存在数据模型中
+				List<DkItem> itemList = new ArrayList<DkItem>();
+				for(int i=sh1.getFirstRowNum()+1; i<=sh1.getLastRowNum(); i++) {
+					Row row= sh1.getRow(i);
+					if(row == null) break;
+					rowNum = (i+1);
+					DkItem item = new DkItem();
+					
+					if(row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) break;
+					
+					item.setName(row.getCell(0).getStringCellValue());
+					item.setType(row.getCell(1).getStringCellValue());
+					item.setCount((int)row.getCell(2).getNumericCellValue());
+					item.setUnit(row.getCell(3).getStringCellValue());
+					item.setOrigin(row.getCell(4).getStringCellValue());
+					item.setDate(row.getCell(5).getDateCellValue());
+					itemList.add(item);
+				}
+				itemService.addItemList(itemList);
+				/*
+				 * for(DkItem item: itemList) { itemService.addItem(item); }
+				 */
+			} catch (Exception e) {
+				log.error(e.getMessage());
+				StringBuffer buf = new StringBuffer();
+				buf.append("第")
+				.append(rowNum)
+				.append("行 ").append("\n").append(e.getMessage());
+				return new ResponseEntity<Result>(
+						new Result(STATUS_CODE.FAILED,buf.toString(),null)
+						,HttpStatus.OK);
+			}
+		}
+		
+		return new ResponseEntity<Result>(
+				new Result(STATUS_CODE.SUCCESS,"导入成功",null)
+				,HttpStatus.OK);
 	}
 
 }
