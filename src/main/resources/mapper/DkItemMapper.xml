@@ -3,6 +3,14 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dk.mapper.DkItemMapper">
 
+	<select id="getCount">
+		select count(*) from dkitem;
+	</select>
+
+	<select id="getListByPage" resultMap="dkItemResult">
+		select * from dkitem limit #{offset},#{limit}
+	</select>
+
 	<insert id="addItem" useGeneratedKeys="true" keyProperty="itemId">
 	
 		insert into dkitem(item_name,item_category,item_count,item_unit,item_origin)

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import dk.bean.PageBean;
 import dk.mapper.DkItemMapper;
 import dk.pojo.DkItem;
 
@@ -26,8 +27,14 @@ public class ItemServiceImp implements ItemService {
 
 	@Override
 	public void addItemList(List<DkItem> itemList) throws Exception {
-		// TODO Auto-generated method stub
 		mapper.addItemList(itemList);
+	}
+
+
+
+	@Override
+	public List<DkItem> getListByPage(PageBean page) throws Exception {
+		return mapper.getListByPage(page);
 	}
 
 }

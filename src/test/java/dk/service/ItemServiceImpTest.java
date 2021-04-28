@@ -1,10 +1,12 @@
 package dk.service;
 
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.assertTrue;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,6 +16,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import dk.bean.PageBean;
 import dk.pojo.DkItem;
 
 
@@ -54,6 +57,13 @@ public class ItemServiceImpTest {
 		List<DkItem> itemList = new ArrayList<DkItem>();
 		itemList.add(item);
 		itemServiceImp.addItemList(itemList);
+	}
+	
+	@Test
+	public void testGetListByPage() throws Exception {
+		PageBean pageBean = new PageBean();
+		List<DkItem> list = itemServiceImp.getListByPage(pageBean);
+		assertTrue(list.size() == 10);
 	}
 
 }
