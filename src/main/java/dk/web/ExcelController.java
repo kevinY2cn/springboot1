@@ -92,7 +92,7 @@ public class ExcelController {
 					if(row.getCell(0) == null || row.getCell(0).getCellType() == CellType.BLANK) break;
 					
 					item.setName(row.getCell(0).getStringCellValue());
-					item.setType(row.getCell(1).getStringCellValue());
+					item.setCategory(row.getCell(1).getStringCellValue());
 					item.setCount((int)row.getCell(2).getNumericCellValue());
 					item.setUnit(row.getCell(3).getStringCellValue());
 					item.setOrigin(row.getCell(4).getStringCellValue());

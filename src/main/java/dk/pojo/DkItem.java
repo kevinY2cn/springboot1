@@ -6,7 +6,7 @@ public class DkItem {
 	
 	private long itemId;
 	private String name;
-	private String type;
+	private String category;
 	private int count;
 	private String unit;
 	private String origin;
@@ -26,12 +26,11 @@ public class DkItem {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	public String getType() {
-		return type;
+	public String getCategory() {
+		return category;
 	}
-	public void setType(String type) {
-		this.type = type;
+	public void setCategory(String category) {
+		this.category = category;
 	}
 	public int getCount() {
 		return count;

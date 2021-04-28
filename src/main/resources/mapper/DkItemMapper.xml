@@ -5,19 +5,19 @@
 
 	<insert id="addItem" useGeneratedKeys="true" keyProperty="itemId">
 	
-		insert into dkitem(item_name,item_type,item_count,item_unit,item_origin)
+		insert into dkitem(item_name,item_category,item_count,item_unit,item_origin)
 		<include refid="insert_values">
 		</include>
 	</insert>
 	
 	<insert id="addItemList" useGeneratedKeys="true" keyProperty="itemId">
 	
-		insert into dkitem(item_name,item_type,item_count,item_unit,item_origin)
+		insert into dkitem(item_name,item_category,item_count,item_unit,item_origin)
 		values
 		<foreach collection="list" item="item" separator=",">
 			(
 			#{item.name},
-			#{item.type},
+			#{item.category},
 			#{item.count},
 			#{item.unit},
 			#{item.origin}
@@ -28,7 +28,7 @@
 	<sql id="insert_values">
 		values (
 				#{name},
-				#{type},
+				#{category},
 				#{count},
 				#{unit},
 				#{origin}
@@ -38,7 +38,7 @@
 	<resultMap id="dkItemResult" type="dkItem">
 		<id property="itemId" column="item_id"></id>
 		<result property="name" column="item_name"/>
-		<result property="type" column="item_type"/>
+		<result property="category" column="item_category"/>
 		<result property="count" column="item_count"/>
 		<result property="unit" column="item_unit"/>
 		<result property="origin" column="item_origin"/>
