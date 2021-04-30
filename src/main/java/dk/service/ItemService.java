@@ -12,5 +12,9 @@ public interface ItemService {
 	public void addItemList(List<DkItem> itemList) throws Exception;
 	
 	public List<DkItem> getListByPage(PageBean page) throws Exception;
+	
+	public int getRowCount() throws Exception;
+	
+	public void updateList(List<DkItem> itemList) throws Exception;
 
 }

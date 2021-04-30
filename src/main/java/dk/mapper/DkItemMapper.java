@@ -19,5 +19,9 @@ public interface DkItemMapper {
 	
 	public List<DkItem> getListByPage(PageBean page) throws Exception;
 	
+	public int getRowCount() throws Exception;
+	
+	public void updateList(List<DkItem> itemList) throws Exception;
+	
 
 }

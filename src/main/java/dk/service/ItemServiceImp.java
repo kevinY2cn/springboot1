@@ -37,4 +37,16 @@ public class ItemServiceImp implements ItemService {
 		return mapper.getListByPage(page);
 	}
 
+
+	@Override
+	public int getRowCount() throws Exception {
+		return mapper.getRowCount();
+	}
+
+
+	@Override
+	public void updateList(List<DkItem> itemList) throws Exception {
+		mapper.updateList(itemList);
+	}
+
 }

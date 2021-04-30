@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dk.mapper.DkItemMapper">
 
-	<select id="getCount">
+	<select id="getRowCount" resultType="Integer">
 		select count(*) from dkitem;
 	</select>
 
@@ -17,6 +17,28 @@
 		<include refid="insert_values">
 		</include>
 	</insert>
+	
+	<update id="updateList">
+		update dkitem 
+		<trim prefix="set" suffixOverrides=",">
+	        <trim prefix="item_name = case" suffix="end,">
+	          <foreach collection="list" item="item">
+	            <if test="item.name != null">
+	              when item_id=#{item.itemId} then #{item.name}
+	            </if>
+	          </foreach>
+	        </trim>
+      	</trim>
+      	<trim prefix="where">
+      		 <trim prefix="item_id in (" suffix=")">
+      		 	<trim suffixOverrides="," >
+	      		 	<foreach collection="list" item="item">
+			            #{item.itemId},
+		          	</foreach>
+	          	</trim>
+      		 </trim>
+      	</trim>
+	</update>
 	
 	<insert id="addItemList" useGeneratedKeys="true" keyProperty="itemId">
 	
