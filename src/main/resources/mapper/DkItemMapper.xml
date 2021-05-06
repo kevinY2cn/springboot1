@@ -4,11 +4,11 @@
 <mapper namespace="dk.mapper.DkItemMapper">
 
 	<select id="getRowCount" resultType="Integer">
-		select count(*) from dkitem;
+		select count(*) from dkitem where item_delete_flag = 0;
 	</select>
 
 	<select id="getListByPage" resultMap="dkItemResult">
-		select * from dkitem limit #{offset},#{limit}
+		select * from dkitem where item_delete_flag = 0 limit #{offset},#{limit}
 	</select>
 
 	<insert id="addItem" useGeneratedKeys="true" keyProperty="itemId">
@@ -17,6 +17,7 @@
 		<include refid="insert_values">
 		</include>
 	</insert>
+	
 	
 	<update id="updateList">
 		update dkitem 
@@ -38,6 +39,28 @@
 	          	</trim>
       		 </trim>
       	</trim>
+	</update>
+	
+	<!-- <delete id="deleteItem">
+		delete from dkitem where item_id = #{itemId}
+	
+	</delete> -->
+	
+ 	<update id="deleteItem">
+		update dkitem set item_delete_flag = 1 where item_id = #{itemId}
+	</update>
+	
+	
+	<update id="batchDelete">
+		update dkitem set item_delete_flag = 1
+		where
+		<trim prefix="item_id in(" suffix=")">
+			<trim suffixOverrides=",">
+				<foreach collection="list" item="item">
+					#{item.itemId},
+				</foreach>
+			</trim>
+		</trim>
 	</update>
 	
 	<insert id="addItemList" useGeneratedKeys="true" keyProperty="itemId">

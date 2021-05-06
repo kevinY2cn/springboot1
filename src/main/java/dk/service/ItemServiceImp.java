@@ -49,4 +49,17 @@ public class ItemServiceImp implements ItemService {
 		mapper.updateList(itemList);
 	}
 
+
+	@Override
+	public void deleteItem(int itemId) throws Exception {
+		mapper.deleteItem(itemId);
+	}
+
+
+	@Override
+	public void batchDelete(List<DkItem> itemList) throws Exception {
+		mapper.batchDelete(itemList);
+		
+	}
+
 }

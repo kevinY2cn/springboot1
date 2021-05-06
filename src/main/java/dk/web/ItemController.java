@@ -1,9 +1,10 @@
 package dk.web;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.ServletRequest;
 
+import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -51,6 +52,22 @@ public class ItemController {
 	@PostMapping("/update")
 	public void updateItemList(@RequestBody List<DkItem> list) throws Exception{
 		if(list != null && list.size() > 0) itemServiceImp.updateList(list);
+	}
+	
+	@PostMapping("/delete")
+	public void deleteItem(
+			@RequestParam("itemId") Integer itemId) throws Exception{
+		if(itemId == null) throw new NullPointerException();
+		
+		itemServiceImp.deleteItem(itemId);
+	}
+	
+	@PostMapping("/delete/list")
+	public void deleteList(
+			@RequestBody List<DkItem> list) throws Exception{
+		if(list == null || list.size() < 0) throw new NullPointerException();
+		itemServiceImp.batchDelete(list);
+		System.out.println("删除成功");
 	}
 
 }

@@ -23,5 +23,8 @@ public interface DkItemMapper {
 	
 	public void updateList(List<DkItem> itemList) throws Exception;
 	
+	public void deleteItem(int itemId) throws Exception;
+	
+	public void batchDelete(List<DkItem> itemList) throws Exception;
 
 }
