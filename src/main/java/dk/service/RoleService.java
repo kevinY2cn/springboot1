@@ -19,6 +19,8 @@ public interface RoleService {
 	
 	@Transactional(rollbackFor = Exception.class)
 	public void updateRole(List<Role> list) throws Exception;
+
+	public int getRowCount();
  
 
 }

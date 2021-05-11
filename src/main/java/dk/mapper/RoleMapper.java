@@ -18,4 +18,6 @@ public interface RoleMapper {
 	
 	public void updateRole(List<Role> list) throws Exception;
 
+	public int getRowCount();
+
 }

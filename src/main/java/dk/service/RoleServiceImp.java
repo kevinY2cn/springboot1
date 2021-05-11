@@ -36,4 +36,9 @@ public class RoleServiceImp implements RoleService {
 		mapper.updateRole(list);
 	}
 
+	@Override
+	public int getRowCount() {
+		return mapper.getRowCount();
+	}
+
 }

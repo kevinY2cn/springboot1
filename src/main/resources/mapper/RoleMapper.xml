@@ -3,6 +3,10 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="dk.mapper.RoleMapper">
 
+
+	<select id="getRowCount" resultType="int">
+		select count(*) from role
+	</select>
 	<select id="queryAll" resultMap="roleResult">
 		select * from role limit #{offset}, #{limit}
 	</select>
