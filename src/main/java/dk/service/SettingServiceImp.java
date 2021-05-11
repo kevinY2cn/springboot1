@@ -20,18 +20,40 @@ public class SettingServiceImp implements SettingService {
 	private SettingMapper mapper;
 
 	@Override
-	public List<ModuleOption> getModuleOptions() {
+	public List<ModuleOption> getModuleOptions() throws Exception{
 		return mapper.getModuleOptions();
 	}
 
 	@Override
-	public List<Permission> getPermissionListByPage(PageBean bean) {
+	public List<Permission> getPermissionListByPage(PageBean bean) throws Exception{
 		return mapper.getPermissionListByPage(bean);
 	}
 
 	@Override
-	public int getPermissionCount() {
+	public int getPermissionCount() throws Exception{
 		return mapper.getPermissionCount();
+	}
+
+	@Override
+	public void addPermission(List<Permission> list) throws Exception {
+		mapper.addPermission(list);
+		
+	}
+
+	@Override
+	public void updatePermission(List<Permission> list) throws Exception {
+		mapper.updatePermission(list);
+	}
+
+	@Override
+	public void deletePermission(List<Integer> list) throws Exception {
+		mapper.deletePermission(list);
+		
+	}
+
+	@Override
+	public Permission queryPermissionById(int id) throws Exception {
+		return mapper.queryPermissionById(id);
 	}
 
 }

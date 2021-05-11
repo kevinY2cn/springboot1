@@ -11,9 +11,18 @@ import dk.pojo.Permission;
 @Mapper
 public interface SettingMapper {
 
-	public List<ModuleOption> getModuleOptions();
+	public List<ModuleOption> getModuleOptions() throws Exception;
 	
-	public List<Permission> getPermissionListByPage(PageBean bean);
+	public List<Permission> getPermissionListByPage(PageBean bean) throws Exception;
 
-	public int getPermissionCount();
+	public int getPermissionCount() throws Exception;
+
+	public void addPermission(List<Permission> list) throws Exception;
+
+	public void updatePermission(List<Permission> list) throws Exception;
+
+	public void deletePermission(List<Integer> list);
+
+	public Permission queryPermissionById(int id);
+
 }

@@ -20,7 +20,7 @@
 	
 	
 	<update id="updateList">
-		update dkitem 
+		update dkitem permission
 		<trim prefix="set" suffixOverrides=",">
 	        <trim prefix="item_name = case" suffix="end,">
 	          <foreach collection="list" item="item">

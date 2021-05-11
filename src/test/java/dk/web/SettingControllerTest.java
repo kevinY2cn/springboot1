@@ -48,7 +48,7 @@ public class SettingControllerTest {
 		List<ModuleOption> list = JSON.parseArray(str, ModuleOption.class);
 		for(ModuleOption o: list) {
 			if(o.getId() == 1) {
-				assertEquals("权限管理模块", o.getModule_name());
+				assertEquals("权限管理模块", o.getModuleName());
 			}
 		}
 	}

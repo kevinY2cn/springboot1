@@ -3,32 +3,32 @@ package dk.pojo;
 public class Permission {
 	
 	private int id;
-	private String permission_name;
-	private int module_id;
-	private String module_name;
+	private String permissionName;
+	private int moduleId;
+	private String moduleName;
 	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
 		this.id = id;
 	}
-	public String getPermission_name() {
-		return permission_name;
+	public String getPermissionName() {
+		return permissionName;
 	}
-	public void setPermission_name(String permission_name) {
-		this.permission_name = permission_name;
+	public void setPermissionName(String permissionName) {
+		this.permissionName = permissionName;
 	}
-	public int getModule_id() {
-		return module_id;
+	public int getModuleId() {
+		return moduleId;
 	}
-	public void setModule_id(int module_id) {
-		this.module_id = module_id;
+	public void setModuleId(int moduleId) {
+		this.moduleId = moduleId;
 	}
-	public String getModule_name() {
-		return module_name;
+	public String getModuleName() {
+		return moduleName;
 	}
-	public void setModule_name(String module_name) {
-		this.module_name = module_name;
+	public void setModuleName(String moduleName) {
+		this.moduleName = moduleName;
 	}
 	
 	

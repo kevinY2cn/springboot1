@@ -8,27 +8,69 @@
 	</select>
 	
 	<select id="getPermissionListByPage" resultMap="permission">
-		select * from  permission limit #{offset},#{limit};
+		select * from  permission limit #{offset},#{limit}
 	</select>
 	
-	<select id="getPermissionCount">
-		select count(*) from permission;
+	<select id="getPermissionCount" resultType="int">
+		select count(*) from permission
 	</select>
 	
-
-	<resultMap id="count" type="java.lang.Integer">
-		<result column="total"/>
-	</resultMap>
+	<select id="queryPermissionById" resultMap="permission">
+		select * from permission where id = #{id}
+	</select>
+	
+	<insert id="addPermission" parameterType="permission">
+	insert into permission(module_id,module_name,permission_name) values
+			<foreach collection="list" item="item" separator=",">
+				(
+				#{item.moduleId},
+				#{item.moduleName},
+				#{item.permissionName}
+				)
+			</foreach>
+	</insert>
+	
+	<update id="updatePermission" parameterType="permission">
+		update permission set 
+			<trim suffixOverrides=",">
+				<trim prefix="module_id = case " suffix="end,">
+					<foreach collection="list" item="item">
+						<if test="item.moduleId != null">
+							when id = #{item.id} then #{item.moduleId}
+						</if>		
+					</foreach>	
+				</trim>
+				<trim prefix="module_name = case " suffix="end,">
+					<foreach collection="list" item="item">
+						<if test="item.moduleName != null">
+							when id = #{item.id} then #{item.moduleName}
+						</if>		
+					</foreach>	
+				</trim>
+				<trim prefix="permission_name = case " suffix="end,">
+					<foreach collection="list" item="item">
+						<if test="item.permissionName != null">
+							when id = #{item.id} then #{item.permissionName}
+						</if>		
+					</foreach>	
+				</trim>
+			</trim>
+			<trim prefix="where id in(" suffix=")">
+				<foreach collection="list" item="item" separator=",">
+					#{item.id}
+				</foreach>
+			</trim>
+	</update>
 	
 	<resultMap id="moduleOption" type="moduleOption">
 		<id property="id" column="id"></id>
-		<result property="module_name" column="module_name"/>
+		<result property="moduleName" column="module_name"/>
 	</resultMap>
 	
 	<resultMap id="permission" type="permission">
 		<id property="id" column="id"></id>
-		<result property="module_id" column="module_id"/>
-		<result property="module_name" column="module_name"/>
-		<result property="permission_name" column="p_name"/>
+		<result property="moduleId" column="module_id"/>
+		<result property="moduleName" column="module_name"/>
+		<result property="permissionName" column="permission_name"/>
 	</resultMap>
 </mapper>
