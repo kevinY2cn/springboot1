@@ -1,5 +1,7 @@
 package dk.pojo;
 
+import java.util.List;
+
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -29,8 +31,22 @@ public class DkUser {
 	@DecimalMin(value="1",message="错误的城市")
 	private String cityId;
 	
+	private List<Permission> permissionList;
 	
+	private List<Role> roleList;
 	
+	public List<Permission> getPermissionList() {
+		return permissionList;
+	}
+	public void setPermissionList(List<Permission> permissionList) {
+		this.permissionList = permissionList;
+	}
+	public List<Role> getRoleList() {
+		return roleList;
+	}
+	public void setRoleList(List<Role> roleList) {
+		this.roleList = roleList;
+	}
 	public int getId() {
 		return id;
 	}

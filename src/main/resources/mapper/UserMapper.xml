@@ -33,11 +33,18 @@
 		
 	</insert>
 	
-	<update id="updateUser">
+	<update id="updateUser" parameterType="dkUser">
 			update DkUser 
 			<set>
 				<if test="user_name != null">user_name=#{username}</if>
 				<if test="pass_word != null">pass_word=#{password}</if>
+				<if test="permissionList != null and permissionList.size() > 0">
+					permission_id_list = (
+						<foreach collection="permissionList" item="item" separator=",">
+							item.id
+						</foreach>
+					)
+				</if>
 			</set>
 			where id = #{id}
 	</update>
@@ -50,7 +57,7 @@
 	
 
 
-	<resultMap id="userResultType" type="DkUser">
+	<resultMap id="userResultType" type="dkUser">
 		<id property="id" column="user_id"></id>
 		<result property="username" column="user_name"/>
   		<result property="password" column="pass_word"/>

@@ -19,7 +19,7 @@
 		select * from permission where id = #{id}
 	</select>
 	
-	<insert id="addPermission" parameterType="permission">
+	<insert id="addPermission" parameterType="permission" useGeneratedKeys="true" keyProperty="id">
 	insert into permission(module_id,module_name,permission_name) values
 			<foreach collection="list" item="item" separator=",">
 				(
